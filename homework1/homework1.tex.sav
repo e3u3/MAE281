@@ -1,0 +1,381 @@
+\documentclass[a4paper, 11pt]{article}
+% ----- Loading the Package MCMthesis -----
+% -----           v 5.01-L            -----
+% `tcn' is short for `Team Control Number'.
+% You should fill your tcn after the equal sign following tcn.
+% The option `sheet' contorls weather the summary sheet
+% will appear.
+% The option `abstract' controls weather the abstract
+% will appear in the title-page.
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{diagbox}
+\usepackage{color}
+% ----- Question Mark -----
+% ----- Fonts settings -----
+% You may need to install the font files, if it's needed.
+% Disable it, if you don't want this font.
+\usepackage{palatino}
+\usepackage{geometry}% 能设置页边距
+\usepackage{setspace}% 能设置行距
+\usepackage{graphicx} %插入图形宏包
+\usepackage{float} %与插入图形有关 禁止图表的浮动[H]
+% ----- Set the skip betweent the paragraphics -----
+\setlength\parskip{.5\baselineskip}
+\setcounter{tocdepth}{4}
+% ----- The name of Abstract ------
+\providecommand{\abstractname}{\relax} % <-- Do not modify here.
+\renewcommand{\abstractname}{\Large Abstract} % <-- Modify here, if needed.
+% -----------------------------------
+% ===== The Title of Your Paper =====
+% -----------------------------------
+\newtheorem{law}{Law} %law 表明定理的名字，在输出中不显示，Law 表明定理的真实名字，在输出中显示 名称的替代？
+\newtheorem{jury}[law]{Jury} %表明以jury 为名称的定理与law 定理按同样顺序编号
+\newtheorem{mur}{Murphy}[section] %[section] 使加入的定理的编号与当前节链接
+\title{Solutions for HW1}
+% ---------------------------------------
+% ===== The Author(s) of Your Paper =====
+% ---------------------------------------
+\author{Yunhai Han}
+% ----------------
+% ===== Time =====
+% ----------------
+%首先 \begin{item} 是输出标号段落内容   \cite{} 能标号
+\begin{document}
+% Abstract should be put before `\maketitle'
+\maketitle
+\newgeometry{top=3cm,bottom=3cm,left=2cm,right=2cm} %全文页边距设置 4个方向 这个命令只能针对全文，与作用区域无关，即使在一个单独分组里？
+\pagestyle{empty}
+% Generate the Table of Contents, if it's needed.
+% \tableofcontents
+% \newpage
+% The body of your paper
+
+%====================== 问题介绍====================================
+\section{Problem 1}
+For each of the following systems, find all equilibrium points and determine the type of each isolated equilibrium. Use Matlab to compute the eigenvalues.
+
+In order to find the equilibrium points, we need to solve the equation $\dot{x}=f(x)=0$. In most cases, $x$ represents a vector, which means there are more than one variable in the state space. Then we will linearize the system near each equilibrium points and we only need to reserve the first-order term and ignore the higher orders. We could use another equation to approximate the system near the equilibrium like this:$\dot{x}=Ax$. We could measure the performance of each system near equilibrium points by analyzing matrix $A$.
+\subsection{1}
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+\dot{x_1}=x_2 \\
+\dot{x_2}=-x_1+\frac{1}{6}x_1^3-x_2
+\end{array}
+\end{equation*}
+For the above system, there are three different equilibrium points:
+\begin{equation*}
+\begin{array}{lll} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+(x_1,x_2)=(0,0)& (x_1,x_2)=(\sqrt6,0)& (x_1,x_2)=(-\sqrt6,0)
+\end{array}
+\end{equation*}
+The Taylor expansion for this system is:
+\begin{equation*}
+\dot{x}=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+0 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+-1+\frac{1}{2}x_1^2 & -1
+\end{array} \right)
+x
+\end{equation*}
+I take different equilibrium points into the above equation and obtain three matrix $A$:
+\begin{equation*}
+\begin{array}{lll} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+A_1=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+0 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+-1 & -1
+\end{array} \right) & A_2=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+0 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+2 & -1
+\end{array} \right) & A_3=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+0 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+2 & -1
+\end{array} \right)
+\end{array}
+\end{equation*}
+I use Matlab to compute the eigenvalues of each matrix $A_1,A_2,A_3$.
+\begin{itemize}
+\item[1.] $\lambda_1=-\frac{\sqrt3}{2}i-0.5,\lambda_2=\frac{\sqrt3}{2}i-0.5$
+\item[2.] $\lambda_1=-2,\lambda_2=1$:
+\item[3.] $\lambda_1=-2,\lambda_2=1$:
+\end{itemize}
+\begin{itemize}
+\item[1.] The eigenvalues of matrix $A_1$ are complex values and the real component is smaller than 0, so the type of equilibrium point is stable focus.
+\item[2.] The eigenvalues of matrix $A_2$ are real values with one of them larger than 0, so the type of equilibrium point is unstable node.
+\item[3.] The eigenvalues of matrix $A_3$ are real values with one of them larger than 0, so the type of equilibrium point is saddle point.
+\end{itemize}
+\subsection{2}
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+\dot{x_1}=-x_1+x_2 \\
+\dot{x_2}=0.1x_1-2x_2-x1^2-0.1x1^3
+\end{array}
+\end{equation*}
+For the above system, there are three different equilibrium points:
+\begin{equation*}
+\begin{array}{lll} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+(x_1,x_2)=(0,0)& (x_1,x_2)=(-7.45,-7.45)& (x_1,x_2)=(-2.55,-2.55)
+\end{array}
+\end{equation*}
+The Taylor expansion for this system is:
+\begin{equation*}
+\dot{x}=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+-1 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+-0.3x_1^2-2x_1+0.1 & -2
+\end{array} \right)
+x
+\end{equation*}
+I take different equilibrium points into the above equation and obtain three matrix $A$:
+\begin{equation*}
+\begin{array}{lll} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+A_1=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+-1 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+0.1 & -2
+\end{array} \right) & A_2=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+-1 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+-1.65 & -2
+\end{array} \right) & A_3=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+-1 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+3.25 & -2
+\end{array} \right)
+\end{array}
+\end{equation*}
+I use Matlab to compute the eigenvalues of each matrix $A_1,A_2,A_3$.
+\begin{itemize}
+\item[1.] $\lambda_1=-0.91,\lambda_2=-2.09$
+\item[2.] $\lambda_1=-1.5+1.18i,\lambda_2=-1.5-1.18i$:
+\item[3.] $\lambda_1=0.37,\lambda_2=-3.37$:
+\end{itemize}
+\begin{itemize}
+\item[1.] The eigenvalues of matrix $A_1$ are real values with both of them smaller than 0, so the type of equilibrium point is stable node.
+\item[2.] The eigenvalues of matrix $A_2$ are complex values and the real component is smaller than 0, so the type of equilibrium point is stable focus.
+\item[3.] The eigenvalues of matrix $A_3$ are real values with one of them larger than 0, so the type of equilibrium point is saddle point.
+\end{itemize}
+\subsection{3}
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+\dot{x_1}=-x_1+x_2(1+x_1) \\
+\dot{x_2}=-x_1(1+x_1)
+\end{array}
+\end{equation*}
+For the above system, there are only one equilibrium points:
+\begin{equation*}
+\begin{array}{c} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+(x_1,x_2)=(0,0)
+\end{array}
+\end{equation*}
+The Taylor expansion for this system is:
+\begin{equation*}
+\dot{x}=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+x_2-1 & x_1+1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+-2x_1-1 & 0
+\end{array} \right)
+x
+\end{equation*}
+I take the equilibrium point into the above equation and obtain the matrix $A$:
+\begin{equation*}
+A_1=
+\left( \begin{array}{cc}
+-1 & 1 \\
+-1 & 0
+\end{array} \right)
+\end{equation*}
+I use Matlab to compute the eigenvalues of the matrix $A_1$.
+\begin{itemize}
+\item[1.] $\lambda_1=-0.5+\frac{\sqrt3}{2}i,\lambda_2=-1.5-\frac{\sqrt3}{2}i$:
+\end{itemize}
+\begin{itemize}
+\item[1.] The eigenvalues of matrix $A_1$ are complex values and the real component is smaller than 0, so the type of equilibrium point is stable focus.
+\end{itemize}
+\subsection{4}
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+\dot{x_1}=-x_1^3+x_2 \\
+\dot{x_2}=x_1-x_2^3
+\end{array}
+\end{equation*}
+For the above system, there are three different equilibrium points in real number(there are some other solutions with complex components, but I think it is not necessary for us to analyze the behaviour near these points because they are not reachable):
+\begin{equation*}
+\begin{array}{lll} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+(x_1,x_2)=(0,0)& (x_1,x_2)=(-1,-1)& (x_1,x_2)=(1,1)
+\end{array}
+\end{equation*}
+The Taylor expansion for this system is:
+\begin{equation*}
+\dot{x}=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+-3*x_1^2 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+1 & -3*x_2^2
+\end{array} \right)
+x
+\end{equation*}
+I take different equilibrium points into the above equation and obtain three matrix $A$:
+\begin{equation*}
+\begin{array}{lll} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+A_1=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+0 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+1 & 0
+\end{array} \right) & A_2=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+-3 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+1 & -3
+\end{array} \right) & A_3=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+-3 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+1 & -3
+\end{array} \right)
+\end{array}
+\end{equation*}
+I use Matlab to compute the eigenvalues of each matrix $A_1,A_2,A_3$.
+\begin{itemize}
+\item[1.] $\lambda_1=-1,\lambda_2=1$
+\item[2.] $\lambda_1=-4,\lambda_2=-2$:
+\item[3.] $\lambda_1=-4,\lambda_2=-2$:
+\end{itemize}
+\begin{itemize}
+\item[1.] The eigenvalues of matrix $A_1$ are real values with one of them larger than 0, so the type of equilibrium point is saddle point.
+\item[2.] The eigenvalues of matrix $A_1$ are real values with both of them smaller than 0, so the type of equilibrium point is stable node.
+\item[3.] The eigenvalues of matrix $A_1$ are real values with both of them smaller than 0, so the type of equilibrium point is stable node.
+\end{itemize}
+\section{Problem 2}
+The phase portrait of the following systems. Mark the arrowheads and discuss the qualitative behaviour of each system.
+\subsection{1}
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+\dot{x_1}=-x_2 \\
+\dot{x_2}=x_1-x_2(1-x_1^2+0.1x1^4)
+\end{array}
+\end{equation*}
+For the above system, there are only one equilibrium points:
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+(x_1,x_2)=(0,0)
+\end{array}
+\end{equation*}
+The Taylor expansion for this system is:
+\begin{equation*}
+\dot{x}=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+0 & -1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+x_2(-0.4x_1^3+2x——1)+1 & -0.1x_1^4+x_1^2-1
+\end{array} \right)
+x
+\end{equation*}
+I take the equilibrium point into the above equation and obtain the matrix $A$:
+\begin{equation*}
+A_1=
+\left( \begin{array}{cc}
+0 & -1 \\
+1 & -1
+\end{array} \right)
+\end{equation*}
+I use Matlab to compute the eigenvalues of the matrix $A_1$.
+\begin{itemize}
+\item[1.] $\lambda_1=-0.5+0.86i,\lambda_2=-0.5-0.86i$
+\end{itemize}
+\begin{itemize}
+\item[1.] The eigenvalues of matrix $A_1$ are complex values and the real component is smaller than 0, so the type of equilibrium point is stable focus.
+\end{itemize}
+This could be proved by the phase portrait in the figure. The complex component could bring the $sin$ and $cos$ into the system output, and the negative real component could reduce the energy of these parts to zero gradually.
+\begin{figure}[H] %[H]表明图片输出在指定想要的位置（即代码处的位置），不然图片输出此页最上方，
+\centering
+\includegraphics[angle=0,height=6cm,width=6cm]{1.jpg}
+\end{figure}
+I mark the arrowheads shown in the above figure.
+\subsection{2}
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+\dot{x_1}=x_2 \\
+\dot{x_2}=x_1+x_2-3tan^{-1}(x_1+x+2)
+\end{array}
+\end{equation*}
+For the above system, there are only one equilibrium points:
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+(x_1,x_2)=(0,0)
+\end{array}
+\end{equation*}
+The Taylor expansion for this system is:
+\begin{equation*}
+\dot{x}=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+0 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+1-\frac{3}{(x_1+x_2)^2+1} & 1-\frac{3}{(x_1+x_2)^2+1}
+\end{array} \right)
+x
+\end{equation*}
+I take the equilibrium point into the above equation and obtain the matrix $A$:
+\begin{equation*}
+A_1=
+\left( \begin{array}{cc}
+0 & 1 \\
+-2 & -2
+\end{array} \right)
+\end{equation*}
+I use Matlab to compute the eigenvalues of the matrix $A_1$.
+\begin{itemize}
+\item[1.] $\lambda_1=-1+1i,\lambda_2=-1-1i$
+\end{itemize}
+\begin{itemize}
+\item[1.] The eigenvalues of matrix $A_1$ are complex values and the real component is smaller than 0, so the type of equilibrium point is stable focus.
+\end{itemize}
+And this could be proved from the figure.
+\begin{figure}[H] %[H]表明图片输出在指定想要的位置（即代码处的位置），不然图片输出此页最上方，
+\centering
+\includegraphics[angle=0,height=6cm,width=6cm]{2.jpg}
+\end{figure}
+I mark the arrowheads shown in the above figure.
+\subsection{3}
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+\dot{x_1}=x_2 \\
+\dot{x_2}=-(0.5x_1+x_1^3)
+\end{array}
+\end{equation*}
+For the above system, there are only one equilibrium points:
+\begin{equation*}
+\begin{array}{l} %这里的ll换成ccc的话，输出不对齐，注意表达式的括号是用{表示，而且输出显示{的话，必须要\{
+(x_1,x_2)=(0,0)
+\end{array}
+\end{equation*}
+The Taylor expansion for this system is:
+\begin{equation*}
+\dot{x}=
+\left( \begin{array}{cc} %注意矩阵的括号是用(写，每一行都被看做一个公式
+0 & 1 \\  % 不同元素要用&分开来写。 &符号表示的含义是各个输入数字是独立的，不然会在一起输出，latex不认空格
+1-\frac{3}{(x_1+x_2)^2+1} & 1-\frac{3}{(x_1+x_2)^2+1}
+\end{array} \right)
+x
+\end{equation*}
+I take the equilibrium point into the above equation and obtain the matrix $A$:
+\begin{equation*}
+A_1=
+\left( \begin{array}{cc}
+0 & 1 \\
+-2 & -2
+\end{array} \right)
+\end{equation*}
+I use Matlab to compute the eigenvalues of the matrix $A_1$.
+\begin{itemize}
+\item[1.] $\lambda_1=-1+1i,\lambda_2=-1-1i$
+\end{itemize}
+\begin{itemize}
+\item[1.] The eigenvalues of matrix $A_1$ are complex values and the real component is smaller than 0, so the type of equilibrium point is stable focus.
+\end{itemize}
+And this could be proved from the figure.
+\begin{figure}[H] %[H]表明图片输出在指定想要的位置（即代码处的位置），不然图片输出此页最上方，
+\centering
+\includegraphics[angle=0,height=6cm,width=6cm]{2.jpg}
+\end{figure}
+I mark the arrowheads shown in the above figure.
+\end{document}
+% ----- End of Document Body -----
